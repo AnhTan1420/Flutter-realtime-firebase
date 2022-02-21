@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+Flutter main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  runApp(MyApp());
 
+}
+
+
+class MyApp extends StatelessWidget{
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp();
+  Widget build (BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: LoginScreen(),
+    )
   }
 }
