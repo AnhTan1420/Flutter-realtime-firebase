@@ -1,16 +1,17 @@
-import 'dart:html';
-import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatScreen extends StatelessWidget {
-
   final Map<String, dynamic> userMap;
   final String chatRoomId;
 
-  ChatScreen({Key? key, required this.userMap, required this.chatRoomId}) : super(key: key);
+  ChatScreen({required this.chatRoomId, required this.userMap});
 
   final TextEditingController _message = TextEditingController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -44,6 +45,53 @@ class ChatScreen extends StatelessWidget {
       "type": "img",
       "time": FieldValue.serverTimestamp(),
     });
+
+    var ref =
+    FirebaseStorage.instance.ref().child('images').child("$fileName.jpg");
+
+    var uploadTask = await ref.putFile(imageFile!).catchError((error) async {
+      await _firestore
+          .collection('chatroom')
+          .doc(chatRoomId)
+          .collection('chats')
+          .doc(fileName)
+          .delete();
+
+      status = 0;
+    });
+
+    if (status == 1) {
+      String imageUrl = await uploadTask.ref.getDownloadURL();
+
+      await _firestore
+          .collection('chatroom')
+          .doc(chatRoomId)
+          .collection('chats')
+          .doc(fileName)
+          .update({"message": imageUrl});
+
+      print(imageUrl);
+    }
+  }
+
+  void onSendMessage() async {
+    if (_message.text.isNotEmpty) {
+      Map<String, dynamic> messages = {
+        "sendby": _auth.currentUser!.displayName,
+        "message": _message.text,
+        "type": "text",
+        "time": FieldValue.serverTimestamp(),
+      };
+
+      _message.clear();
+      await _firestore
+          .collection('chatroom')
+          .doc(chatRoomId)
+          .collection('chats')
+          .add(messages);
+    } else {
+      print("Enter Some Text");
+    }
   }
 
   @override
@@ -141,5 +189,3 @@ class ChatScreen extends StatelessWidget {
       ),
     );
   }
-}
-
