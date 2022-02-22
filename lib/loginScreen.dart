@@ -6,6 +6,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -60,9 +63,33 @@ class _LoginScreenState extends State<LoginScreen> {
             child: field(size, "password", Icons.lock, _password),
           ),
         ),
+         SizedBox(
+          height: size.height / 10,
+        ),
+        customButton(size),
       ],
       )
     );
+  }
+
+  Widget customButton(Size size) {
+    return Container(
+      height: size.height / 14,
+      width: size.width / 1.2,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: Colors.blue,
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        "Login",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
   }
 
   Widget field(
