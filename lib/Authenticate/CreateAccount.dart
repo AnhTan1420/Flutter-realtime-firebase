@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:chat_app/Methods.dart';
+import 'package:chat_app/Authenticate/Methods.dart';
 
 import '../Screens/HomeScreen.dart';
 
