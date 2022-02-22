@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 Future<User?> createAccount(String name, String email, String password) async {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -49,7 +50,9 @@ Future logOut(BuildContext context) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   try {
-    await _auth.signOut()
+    await _auth.signOut().then((value) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+    });
   } catch (e) {
     print("error");
   }
