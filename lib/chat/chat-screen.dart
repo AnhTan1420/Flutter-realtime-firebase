@@ -30,20 +30,7 @@ class ChatScreen extends StatelessWidget {
   }
 
   Future uploadImage() async {
-    String fileName = Uuid().v1();
-    int status = 1;
 
-    await _firestore
-        .collection('chatroom')
-        .doc(chatRoomId)
-        .collection('chats')
-        .doc(fileName)
-        .set({
-      "sendby": _auth.currentUser!.displayName,
-      "message": "",
-      "type": "img",
-      "time": FieldValue.serverTimestamp(),
-    });
   }
 
   @override
