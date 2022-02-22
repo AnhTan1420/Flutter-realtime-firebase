@@ -1,4 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
+import 'loginScreen.dart';
+
 Flutter main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
@@ -14,6 +18,6 @@ class MyApp extends StatelessWidget{
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: LoginScreen(),
-    )
+    );
   }
 }
