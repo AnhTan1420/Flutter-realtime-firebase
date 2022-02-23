@@ -41,7 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home Screen")
+        title: Text("Home Screen"),
+        actions: [
+          IconButton(icon: Icon(Icons.logout), onPressed: () => logOut(context))
+        ],
       ),
       body: isLoading
             ? Center(
@@ -84,8 +87,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: size.height / 30,
                 ),
+              userMap != null ?
+                ListTile(
+                  onTap: () {},
+                  leading: Icon(Icons.account_box, color: Colors.black),
+                  title: Text(
+                    userMap!['name'],
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  subtitle: Text(userMap!['email']),
+                  trailing: Icon(Icons.chat, color: Colors.black),
+                ) : Container(),
               ],
-            ),
+           ),
     );
   }
 }
