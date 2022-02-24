@@ -109,3 +109,72 @@ class _CreateAccountState extends State<CreateAccount> {
     ),
     )
   }
+
+  Widget customButton(Size size) {
+    return GestureDetector(
+      onTap: () {
+        if (_name.text.isNotEmpty &&
+            _email.text.isNotEmpty &&
+            _password.text.isNotEmpty) {
+          setState(() {
+            isLoading = true;
+          });
+
+          createAccount(_name.text, _email.text, _password.text).then((user) {
+            if (user != null) {
+              setState(() {
+                isLoading = false;
+              });
+
+              print("Account Created Sucessfull");
+            } else {
+              print("Login Failed");
+              setState(() {
+                isLoading = false;
+              });
+            }
+          });
+        } else {
+          print("Please enter Fields");
+        }
+      },
+      child: Container(
+        height: size.height / 14,
+        width: size.width / 1.2,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Colors.blue,
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          "Register",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    )
+  }
+
+  Widget field(
+      Size size, String hintText, IconData icon, TextEditingController cont) {
+    return Container(
+      height: size.height / 14,
+      width: size.width / 1.1,
+      child: TextField(
+        controller: cont,
+        decoration: InputDecoration(
+          prefixIcon: Icon(icon),
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.grey),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+    );
+  }
+
+}
