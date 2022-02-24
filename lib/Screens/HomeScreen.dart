@@ -3,6 +3,8 @@ import 'package:chat_app/Authenticate/Methods.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../chat_room.dart';
+
 
 class HomeScreen extends StatefulWidget {
 
@@ -89,7 +91,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               userMap != null ?
                 ListTile(
-                  onTap: () {},
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => ChatRoom(chatRoomId: '', userMap: {},))
+                  ),
                   leading: Icon(Icons.account_box, color: Colors.black),
                   title: Text(
                     userMap!['name'],
