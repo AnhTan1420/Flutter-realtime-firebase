@@ -18,6 +18,15 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoading = false;
   final TextEditingController _search = TextEditingController();
 
+  String chatRoomId(String user1, String user2) {
+    if (user1[0].toLowerCase().codeUnits[0] >
+        user2.toLowerCase().codeUnits[0]) {
+      return "$user1$user2";
+    } else {
+      return "$user2$user1";
+    }
+  }
+
   void onSearch() async {
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -91,9 +100,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               userMap != null ?
                 ListTile(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => ChatRoom(chatRoomId: '', userMap: {},))
-                  ),
+                  onTap: () {
+                    String roomId = chatRoomId(
+                        _auth.currentUser!.displayName!,
+                        userMap!['name']
+                    );
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => ChatRoom(
+                        chatRoomId: roomId,
+                        userMap: userMap!,
+                      ))
+                    );
+                  },
                   leading: Icon(Icons.account_box, color: Colors.black),
                   title: Text(
                     userMap!['name'],
